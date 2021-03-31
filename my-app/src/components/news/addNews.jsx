@@ -1,5 +1,4 @@
 import React from 'react';
-import { addNewsActionCreator, updateNewsDataActionCreator } from '../../store/newsReducer';
 
 class AddNews extends React.Component {
     constructor(props) {
@@ -10,14 +9,11 @@ class AddNews extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
     onChange() {
-        var action = updateNewsDataActionCreator(this.titleRef.current.value,
-            this.contentRef.current.value);
-        this.props.dispatch(action);
+        this.props.updateAddNewsData(this.titleRef.current.value, this.contentRef.current.value);
     }
     handleSubmit(e) {
         e.preventDefault();
-        var action = addNewsActionCreator();
-        this.props.dispatch(action);
+        this.props.addNews();
     }
     render() {
         return (

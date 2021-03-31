@@ -1,6 +1,5 @@
 import React from 'react';
 import NewsItem from '../newsItem/newsItem';
-import { orderAscActionCreator, orderDescActionCreator } from '../../store/newsReducer';
 
 class News extends React.Component {
   constructor(props) {
@@ -9,10 +8,10 @@ class News extends React.Component {
     this.sortNewsDesc = this.sortNewsDesc.bind(this);
   }
   sortNewsAsc() {
-    this.props.dispatch(orderAscActionCreator());
+    this.props.sortNewsAsc();
   }
   sortNewsDesc() {
-    this.props.dispatch(orderDescActionCreator());
+    this.props.sortNewsDesc();
   }
   render() {
     return (
@@ -22,9 +21,9 @@ class News extends React.Component {
           onClick={this.sortNewsAsc}>Sort asc</button>
           <button className="btn bt-sm btn-primary" 
           onClick={this.sortNewsDesc}>Sort desc</button>
-        </h3><em>{this.props.orderMessage}</em>
+        </h3><em>{this.props.newsPage.orderMessage}</em>
         <div className="list-group">
-          {this.props.news.map((value) => {
+          {this.props.newsPage.news.map((value) => {
               return <NewsItem title={value.title} 
               content={value.content} 
               likes={value.likes} 

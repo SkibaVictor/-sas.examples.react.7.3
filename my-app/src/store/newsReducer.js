@@ -12,41 +12,46 @@ let initialState = {
     ],
     orderMessage: "Not ordered",
     newsAddData: {
-        title : "",
-        content : ""
+        title: "",
+        content: ""
     }
 };
 
 const newsReducer = (state = initialState, action) => {
-    console.log("reducer was called!");
+    let newState = { ...state };
+    newState.news = [...state.news];
     switch (action.type) {
-        case ORDER_ASC:
-            state.news.sort((a, b) => (a.likes > b.likes) ? 1 : -1);
-            state.orderMessage = "Ordered ascending";
-            return state;
-        case ORDER_DESC:
-            state.news.sort((a, b) => (a.likes < b.likes) ? 1 : -1);
-            state.orderMessage = "Ordered descending";
-            return state;
-        case ADD_NEWS:
-            var id = Math.max.apply(Math,
-                state.news.map(function (item) { return item.id; }));
-            id += 1;
-            state.news.push({
+        case ORDER_ASC: {
+            newState.news.sort((a, b) => (a.likes > b.likes) ? 1 : -1);
+            newState.orderMessage = "Ordered ascending";
+            return newState;
+        }
+        case ORDER_DESC: {
+            newState.news.sort((a, b) => (a.likes < b.likes) ? 1 : -1);
+            newState.orderMessage = "Ordered descending";
+            return newState;
+        }
+        case ADD_NEWS: {
+            var id = Math.max.apply(Math, 
+                newState.news.map(function (item) { return item.id; })) + 1;
+            newState.news.push({
                 id: id,
-                title: state.newsAddData.title,
-                content: state.newsAddData.content,
+                title: newState.newsAddData.title,
+                content: newState.newsAddData.content,
                 likes: 0
             });
-            state.newsAddData.title = "";
-            state.newsAddData.content = "";
-            return state;
-        case UPDATE_NEWS_DATA:
-            state.newsAddData.title = action.title;
-            state.newsAddData.content = action.content;
-            return state;
+            newState.newsAddData.title = "";
+            newState.newsAddData.content = "";
+            return newState;
+        }
+        case UPDATE_NEWS_DATA: {
+            newState.newsAddData = {...state.newsAddData};
+            newState.newsAddData.title = action.title;
+            newState.newsAddData.content = action.content;
+            return newState;
+        }
         default:
-            return state;
+            return newState;
     }
 }
 export function orderAscActionCreator() {
